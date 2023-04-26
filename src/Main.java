@@ -27,11 +27,12 @@ public class Main {
 
             while ((line = br.readLine()) != null) {
                 String[] token_a = line.split(" ");
-                int a = Integer.parseInt(token_a[1]);
+                //System.out.println(token_a);
+                double a = Double.parseDouble(token_a[1]);
                 String line2 = br.readLine();
                 String[] token_b = line2.split(" ");
                 int b = Integer.parseInt(token_b[1]);
-                double multi = powRec(a, b);
+                double multi = powIter(a, b);
                 result.add(Double.toString(multi));
             }
             return result;
@@ -45,12 +46,35 @@ public class Main {
         }
     }
 
-    public static double powRec(int a, int b){
-        if(b==0) return  1;
-        if(b<0)  powRec(1/a,-b);
+    public static double powRec(double a, int b){
+        if(b==0){
+            return  1;
+        }
+        if(b<0){
+            powRec(1/a,-b);
+        }
         double res=powRec(a,b/2);
         return b%2==0? res*res : res*res*a;
     }
+
+    public static double powIter(double a, int b){
+        if (a==0 || a==1) return a;
+        if (b==0) return  1;
+        if (b<0){
+            b=-b;
+            a=1/a;
+        }
+        double res=1;
+        while (b>0){
+            if (b%2==1){
+                res*=a;
+            }
+            a*=a;
+            b/=2;
+        }
+        return res;
+    }
+
 
     public static void save(String file)  {
         ArrayList<String> res=loading(file);
